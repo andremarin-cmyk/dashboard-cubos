@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard Cubos</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h2>Cubos Aceptados y Rechazados</h2>
+    <canvas id="grafica" width="400" height="200"></canvas>
+
+    <script>
+        const ctx = document.getElementById('grafica').getContext('2d');
+
+        let chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Aceptados', 'Rechazados'],
+                datasets: [{
+                    label: 'Cantidad',
+                    data: [0, 0],
+                    backgroundColor: ['green', 'red']
+                }]
+            },
+            options: { responsive: true }
+        });
+
+        async function actualizar() {
+            const r = await fetch('/data');
+            const d = await r.json();
+
+            chart.data.datasets[0].data = [
+                d.aceptado || 0,
+                d.rechazado || 0
+            ];
+            chart.update();
+        }
+
+        actualizar();
+        setInterval(actualizar, 3000);
+    </script>
+</body>
+</html>
