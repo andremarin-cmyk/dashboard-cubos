@@ -13,8 +13,8 @@ DB = {
     "sslmode": "require"
 }
 
-TABLE_NAME = "pedidos"
-ESTADO_COL = "estado"
+TABLE_NAME = "detecciones"
+ESTADO_COL = "resultado"
 
 def get_data():
     conn = psycopg2.connect(**DB)
